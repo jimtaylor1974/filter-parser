@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31019.35
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JimTaylor1974.FilterParser", "JimTaylor1974.FilterParser\JimTaylor1974.FilterParser.csproj", "{8E3E7BF6-03DC-479E-A79B-A6348F106914}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JimTaylor1974.FilterParser.ConsoleApp", "JimTaylor1974.FilterParser.ConsoleApp\JimTaylor1974.FilterParser.ConsoleApp.csproj", "{70887F2E-8F3E-474E-ADF3-DF5E093ADAD8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8E3E7BF6-03DC-479E-A79B-A6348F106914}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E3E7BF6-03DC-479E-A79B-A6348F106914}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8E3E7BF6-03DC-479E-A79B-A6348F106914}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8E3E7BF6-03DC-479E-A79B-A6348F106914}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70887F2E-8F3E-474E-ADF3-DF5E093ADAD8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70887F2E-8F3E-474E-ADF3-DF5E093ADAD8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70887F2E-8F3E-474E-ADF3-DF5E093ADAD8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70887F2E-8F3E-474E-ADF3-DF5E093ADAD8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BB545A56-5EC0-4657-84F5-1934F6C9F09B}
+	EndGlobalSection
+EndGlobal
