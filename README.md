@@ -2,7 +2,7 @@
 
 Filter parser parses a filter string which is an approximate implementation of OData filter syntax.
 The parsed filter object is an instance of a Criteria object which can be used to convert the filter into an SQL query.
-ANy filter values are parameterised.
+Filter values are parameterised.
 
 The parser takes in the raw filter value, a field resolver and a constant resolver.
 
