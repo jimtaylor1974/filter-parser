@@ -2,5 +2,6 @@
 {
     public interface IIdentifier : ISqlFragment
     {
+        string ToString(bool rawValue);
     }
 }
