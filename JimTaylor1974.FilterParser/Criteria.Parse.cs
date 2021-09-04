@@ -78,9 +78,7 @@ namespace JimTaylor1974.FilterParser
                         else
                         {
                             // Start new group
-                            var nodeType = IsBinaryGroup(tokens.Skip(index + 1).ToArray())
-                                ? NodeType.BinaryGroup
-                                : NodeType.Group;
+                            var nodeType = GetGroupNodeType(tokens, index);
 
                             var groupNode = currentNode.AddChild(nodeType);
 
@@ -124,10 +122,6 @@ namespace JimTaylor1974.FilterParser
             }
 
             rootNode = GetRootNode(rootNode);
-
-            var dump = Node.DumpXml(rootNode);
-
-            System.Diagnostics.Debug.WriteLine(dump);
             
             var criteria = BuildCriteria(counter, resolveField, resolveConstant, rootNode);
             return criteria;
@@ -177,6 +171,13 @@ namespace JimTaylor1974.FilterParser
 
             var expression = ToExpression(counter, resolveField, resolveConstant, node);
             return FromExpression(expression);
+        }
+
+        private static NodeType GetGroupNodeType(Token[] tokens, int index)
+        {
+            return IsBinaryGroup(tokens.Skip(index + 1).ToArray())
+                ? NodeType.BinaryGroup
+                : NodeType.Group;
         }
 
         private static bool IsBinaryGroup(Token[] tokens)
