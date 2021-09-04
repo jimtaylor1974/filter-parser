@@ -12,6 +12,11 @@ namespace JimTaylor1974.FilterParser.ConsoleApp
     {
         static void Main(string[] args)
         {
+            var makrdown = Operator.DocumentAsMarkdown(false);
+            Console.WriteLine(makrdown);
+            var html = Operator.DocumentAsHtml();
+            Console.WriteLine(html);
+
             // Order, OrderType, Offer
             // Order.Status: Placed, InPacking, InTransit, Delivered
             // OrderType.Type: Standard, Prime

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
 
 namespace JimTaylor1974.FilterParser
 {
@@ -15,7 +17,6 @@ namespace JimTaylor1974.FilterParser
         private static readonly Dictionary<string, Operator> operators =
             typeof(Eq).Assembly.GetTypes()
                 .Where(t => t.BaseType == typeof(Operator) && !t.IsAbstract)
-                .Where(t => NotImplementedAttribute.For(t) == null)
                 .Select(t =>
                 {
                     var operatorAttribute = OperatorAttribute.For(t);
@@ -30,20 +31,22 @@ namespace JimTaylor1974.FilterParser
         private static string[] GetNamesByType(OperatorTypes operatorType)
         {
             return
-                operators.Values.Where(op => op.operatorType.HasFlag(operatorType)).Select(op => op.filter).ToArray();
+                operators.Values.Where(op => op.Implemented && op.operatorType.HasFlag(operatorType)).Select(op => op.filter).ToArray();
         }
 
-        protected string filter = null;
-        protected string sql = null;
-        protected string filterTemplate = null;
-        protected string sqlTemplate = null;
-        protected string overloadFilterTemplate = null;
-        protected string overloadSqlTemplate = null;
+        protected bool implemented;
+        protected string filter;
+        protected string sql;
+        protected string filterTemplate;
+        protected string sqlTemplate;
+        protected string overloadFilterTemplate;
+        protected string overloadSqlTemplate;
         protected OperatorTypes operatorType = OperatorTypes.None;
 
         protected Operator()
         {
-            var operatorAttribute = OperatorAttribute.For(this.GetType());
+            var type = this.GetType();
+            var operatorAttribute = OperatorAttribute.For(type);
 
             if (operatorAttribute != null)
             {
@@ -55,7 +58,11 @@ namespace JimTaylor1974.FilterParser
                 overloadFilterTemplate = operatorAttribute.OverloadFilterTemplate;
                 overloadSqlTemplate = operatorAttribute.OverloadSqlTemplate;
             }
+
+            implemented = NotImplementedAttribute.For(type) == null;
         }
+
+        public virtual bool Implemented => implemented;
 
         public virtual string Sql => sql;
 
@@ -92,7 +99,12 @@ namespace JimTaylor1974.FilterParser
         {
             if (operators.ContainsKey(operatorName))
             {
-                return operators[operatorName];
+                var @operator = operators[operatorName];
+
+                if (@operator.Implemented)
+                {
+                    return @operator;
+                }
             }
 
             return null;
@@ -101,6 +113,107 @@ namespace JimTaylor1974.FilterParser
         public static string[] FunctionNames => functionNames;
 
         public virtual OperatorTypes OperatorType => operatorType;
+
+        private static (string[] headers, string[][] rows) Documentation(bool implementedOnly)
+        {
+            var operatorData = new List<string[]>();
+
+            string GetText(Operator @operator)
+            {
+                if (@operator.Filter.Any(char.IsLetter))
+                {
+                    return @operator.Filter;
+                }
+
+                var nameAsText = Regex.Replace(@operator.GetType().Name,
+                    @"((?<=\p{Ll})\p{Lu})|((?!\A)\p{Lu}(?>\p{Ll}))", " $0");
+
+                return $"{nameAsText}" + (string.IsNullOrWhiteSpace(@operator.Filter) ? @operator.Filter : $": {@operator.Filter}");
+            }
+
+            foreach (var @operator in operators.Values.Where(o => o.Implemented || !implementedOnly).OrderBy(o => o.OperatorType).ThenBy(o => o.Filter))
+            {
+                var row = new List<string>
+                {
+                    @operator.OperatorType.ToString(),
+                    GetText(@operator)
+                };
+
+                if (!implementedOnly)
+                {
+                    row.Add(@operator.Implemented ? "" : "**Not implemented**");
+                }
+
+                operatorData.Add(row.ToArray());
+            }
+
+            var headers = new List<string>
+            {
+                "Type",
+                "Operator"
+            };
+
+            if (!implementedOnly)
+            {
+                headers.Add("");
+            }
+
+            return (headers.ToArray(), operatorData.ToArray());
+        }
+
+        public static string DocumentAsMarkdown(bool implementedOnly = true)
+        {
+            var (headers, rows) = Documentation(implementedOnly);
+
+            var sb = new StringBuilder();
+
+            sb.Append(@"| ");
+            sb.Append(string.Join(" | ", headers));
+            sb.AppendLine(@" |");
+
+            sb.Append(@"| ");
+            sb.Append(string.Join(" | ", headers.Select(h => " --- ")));
+            sb.AppendLine(@" |");
+
+            foreach (var row in rows)
+            {
+                sb.Append("| ");
+                sb.Append(string.Join(" | ", row));
+                sb.AppendLine(" |");
+            }
+
+            return sb.ToString();
+        }
+
+        public static string DocumentAsHtml(bool implementedOnly = true)
+        {
+            var (headers, rows) = Documentation(implementedOnly);
+
+            var sb = new StringBuilder();
+
+            sb.AppendLine(@"<table>");
+            sb.AppendLine(@"<tbody>");
+            sb.AppendLine(@"<tr>");
+            sb.AppendLine(string.Join("", headers.Select(h => $"<th>{h}</th>")));
+            sb.AppendLine(@"</tr>");
+            sb.AppendLine(@"</tbody>");
+            sb.AppendLine(@"<tbody>");
+            foreach (var row in rows)
+            {
+                sb.AppendLine("<tr>");
+                foreach (var cellValue in row)
+                {
+                    sb.AppendLine($"<td>{cellValue}</td>");
+                }
+
+                sb.AppendLine("</tr>");
+            }
+
+            sb.AppendLine(@"</tbody>");
+            sb.AppendLine(@"</table>");
+
+            return sb.ToString();
+        }
     }
 
     [Operator(OperatorTypes.Whitespace, "", "\r\n")]
