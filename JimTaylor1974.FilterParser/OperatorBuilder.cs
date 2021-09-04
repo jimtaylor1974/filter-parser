@@ -54,7 +54,7 @@ namespace JimTaylor1974.FilterParser
             var right1 = new List<ISqlFragment>();
             int commaCount = 0;
 
-            bool leftOfOperator = @operator.OperatorType != OperatorType.Function;
+            bool leftOfOperator = @operator.OperatorType != OperatorTypes.Function;
             for (var index = 0; index < sqlFragments.Count; index++)
             {
                 var sqlFragment = sqlFragments[index];
@@ -100,7 +100,7 @@ namespace JimTaylor1974.FilterParser
                         return expression;
                     }
 
-                    if (@operator.OperatorType == OperatorType.Function)
+                    if (@operator.OperatorType == OperatorTypes.Function)
                     {
                         switch (commaCount)
                         {

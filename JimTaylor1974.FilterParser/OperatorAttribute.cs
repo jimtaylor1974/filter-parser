@@ -10,11 +10,11 @@ namespace JimTaylor1974.FilterParser
         private readonly string sql;
         private readonly string sqlTemplate;
         private readonly string filterTemplate;
-        private readonly OperatorType operatorType;
+        private readonly OperatorTypes operatorType;
         private readonly string overloadSqlTemplate;
         private readonly string overloadFilterTemplate;
 
-        public OperatorAttribute(OperatorType operatorType, string filter, string sql)
+        public OperatorAttribute(OperatorTypes operatorType, string filter, string sql)
         {
             this.operatorType = operatorType;
             this.sql = sql;
@@ -24,7 +24,7 @@ namespace JimTaylor1974.FilterParser
             this.filterTemplate = filter;
         }
 
-        public OperatorAttribute(OperatorType operatorType, string filter, string sql,
+        public OperatorAttribute(OperatorTypes operatorType, string filter, string sql,
             string filterTemplate, string sqlTemplate)
 
             : this(operatorType, filter, sql)
@@ -33,7 +33,7 @@ namespace JimTaylor1974.FilterParser
             this.filterTemplate = filterTemplate;
         }
 
-        public OperatorAttribute(OperatorType operatorType, string filter, string sql,
+        public OperatorAttribute(OperatorTypes operatorType, string filter, string sql,
             string filterTemplate, string sqlTemplate,
             string overloadFilterTemplate, string overloadSqlTemplate)
 
@@ -55,7 +55,7 @@ namespace JimTaylor1974.FilterParser
 
         public string OverloadSqlTemplate { get { return overloadSqlTemplate; } }
 
-        public OperatorType OperatorType { get { return operatorType; } }
+        public OperatorTypes OperatorType { get { return operatorType; } }
 
         public static OperatorAttribute For(Type type)
         {

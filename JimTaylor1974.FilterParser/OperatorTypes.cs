@@ -3,7 +3,7 @@
 namespace JimTaylor1974.FilterParser
 {
     [Flags]
-    public enum OperatorType
+    public enum OperatorTypes
     {
         None = 0,
         Whitespace = 1,
