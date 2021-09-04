@@ -131,12 +131,28 @@ namespace JimTaylor1974.FilterParser
                 return $"{nameAsText}" + (string.IsNullOrWhiteSpace(@operator.Filter) ? @operator.Filter : $": {@operator.Filter}");
             }
 
+
+            string GetTemplates(Operator @operator)
+            {
+                string FormatTemplate(string template)
+                {
+                    return template.Replace("{op}", @operator.Filter);
+                }
+
+                return string.Join(" ", new[]
+                {
+                    @operator.filterTemplate,
+                    @operator.overloadFilterTemplate
+                }.Where(t => t != null).Select(FormatTemplate));
+            }
+
             foreach (var @operator in operators.Values.Where(o => o.Implemented || !implementedOnly).OrderBy(o => o.OperatorType).ThenBy(o => o.Filter))
             {
                 var row = new List<string>
                 {
                     @operator.OperatorType.ToString(),
-                    GetText(@operator)
+                    GetText(@operator),
+                    GetTemplates(@operator)
                 };
 
                 if (!implementedOnly)
@@ -150,7 +166,8 @@ namespace JimTaylor1974.FilterParser
             var headers = new List<string>
             {
                 "Type",
-                "Operator"
+                "Operator",
+                ""
             };
 
             if (!implementedOnly)
