@@ -1,6 +1,7 @@
 # filter-parser
 
 Filter parser parses a filter string which is an approximate implementation of OData filter syntax.
+http://docs.oasis-open.org/odata/odata/v4.0/errata02/os/complete/part2-url-conventions/odata-v4.0-errata02-os-part2-url-conventions-complete.html
 The parsed filter object is an instance of a Criteria object which can be used to convert the filter into an SQL query.
 Filter values are parameterised.
 
