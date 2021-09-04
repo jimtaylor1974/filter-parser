@@ -22,22 +22,17 @@ namespace JimTaylor1974.FilterParser
     /// </summary>
     public class StringTokenizer
     {
-        const char EOF = (char)0;
+        private const char EOF = (char)0;
 
-        int line;
-        int column;
-        int pos;	// position within data
+        private int line;
+        private int column;
+        private int pos;	// position within data
 
-        string data;
+        private readonly string data;
 
-        bool ignoreWhiteSpace;
-        char[] symbolChars;
-        bool treatUnknownAsLetterChars;
-        bool treatNumberAsLetterChars;
-
-        int saveLine;
-        int saveCol;
-        int savePos;
+        private int saveLine;
+        private int saveCol;
+        private int savePos;
 
         public StringTokenizer(TextReader reader)
         {
@@ -74,46 +69,30 @@ namespace JimTaylor1974.FilterParser
         /// <summary>
         /// gets or sets which characters are part of TokenKind.Symbol
         /// </summary>
-        public char[] SymbolChars
-        {
-            get { return this.symbolChars; }
-            set { this.symbolChars = value; }
-        }
+        public char[] SymbolChars { get; set; }
 
         /// <summary>
         /// gets or sets whether unknown characters are part of TokenKind.Word
         /// </summary>
-        public bool TreatUnknownAsLetterChars
-        {
-            get { return this.treatUnknownAsLetterChars; }
-            set { this.treatUnknownAsLetterChars = value; }
-        }
+        public bool TreatUnknownAsLetterChars { get; set; }
 
         /// <summary>
         /// gets or sets whether number characters are part of TokenKind.Word
         /// </summary>
-        public bool TreatNumberAsLetterChars
-        {
-            get { return this.treatNumberAsLetterChars; }
-            set { this.treatNumberAsLetterChars = value; }
-        }
+        public bool TreatNumberAsLetterChars { get; set; }
 
         /// <summary>
         /// if set to true, white space characters will be ignored,
         /// but EOL and whitespace inside of string will still be tokenized
         /// </summary>
-        public bool IgnoreWhiteSpace
-        {
-            get { return this.ignoreWhiteSpace; }
-            set { this.ignoreWhiteSpace = value; }
-        }
+        public bool IgnoreWhiteSpace { get; set; }
 
         private void Reset()
         {
-            this.ignoreWhiteSpace = false;
-            this.symbolChars = new char[] { '=', '+', '-', '/', ',', '.', '*', '~', '!', '@', '#', '$', '%', '^', '&', '(', ')', '{', '}', '[', ']', ':', ';', '<', '>', '?', '|', '\\' };
-            this.treatUnknownAsLetterChars = false;
-            this.treatNumberAsLetterChars = false;
+            this.IgnoreWhiteSpace = false;
+            this.SymbolChars = new char[] { '=', '+', '-', '/', ',', '.', '*', '~', '!', '@', '#', '$', '%', '^', '&', '(', ')', '{', '}', '[', ']', ':', ';', '<', '>', '?', '|', '\\' };
+            this.TreatUnknownAsLetterChars = false;
+            this.TreatNumberAsLetterChars = false;
 
             line = 1;
             column = 1;
@@ -161,7 +140,7 @@ namespace JimTaylor1974.FilterParser
                 case ' ':
                 case '\t':
                     {
-                        if (this.ignoreWhiteSpace)
+                        if (this.IgnoreWhiteSpace)
                         {
                             Consume();
                             goto ReadToken;
@@ -179,7 +158,7 @@ namespace JimTaylor1974.FilterParser
                 case '7':
                 case '8':
                 case '9':
-                    if (treatNumberAsLetterChars)
+                    if (TreatNumberAsLetterChars)
                     {
                         return ReadWord();
                     }
@@ -214,7 +193,7 @@ namespace JimTaylor1974.FilterParser
                 default:
                     {
                         var isSymbol = IsSymbol(ch);
-                        if (Char.IsLetter(ch) || ch == '_' || treatUnknownAsLetterChars && !isSymbol)
+                        if (Char.IsLetter(ch) || ch == '_' || TreatUnknownAsLetterChars && !isSymbol)
                         {
                             return ReadWord();
                         }
@@ -310,8 +289,8 @@ namespace JimTaylor1974.FilterParser
             {
                 char ch = LA(0);
                 if (Char.IsLetter(ch) || ch == '_'
-                    || treatUnknownAsLetterChars && ch != EOF && !IsSymbol(ch) && !char.IsWhiteSpace(ch) && !char.IsDigit(ch)
-                    || treatNumberAsLetterChars && char.IsDigit(ch))
+                    || TreatUnknownAsLetterChars && ch != EOF && !IsSymbol(ch) && !char.IsWhiteSpace(ch) && !char.IsDigit(ch)
+                    || TreatNumberAsLetterChars && char.IsDigit(ch))
                 {
                     Consume();
                 }
@@ -377,8 +356,8 @@ namespace JimTaylor1974.FilterParser
         /// </summary>
         protected bool IsSymbol(char c)
         {
-            for (int i = 0; i < symbolChars.Length; i++)
-                if (symbolChars[i] == c)
+            for (int i = 0; i < SymbolChars.Length; i++)
+                if (SymbolChars[i] == c)
                     return true;
 
             return false;

@@ -31,7 +31,7 @@ namespace JimTaylor1974.FilterParser
         {
             value = GetValue(value);
 
-            if (destinationType.IsNullable() && value is JValue && ((JValue)value).Type == JTokenType.String && ((JValue)value).Value == string.Empty)
+            if (destinationType.IsNullable() && value is JValue && ((JValue)value).Type == JTokenType.String && (string)((JValue)value).Value == string.Empty)
             {
                 return null;
             }

@@ -39,18 +39,6 @@ namespace JimTaylor1974.FilterParser
             return criteria;
         }
 
-        public static ICriteria Or(params ICriteria[] orCriteria)
-        {
-            var criteria = new Criteria(CriteriaType.Or);
-
-            foreach (var c in orCriteria)
-            {
-                criteria.children.Add(c);
-            }
-
-            return criteria;
-        }
-
         public static ICriteria And(params IExpression[] expressions)
         {
             var criteria = new Criteria(CriteriaType.And);
@@ -58,6 +46,18 @@ namespace JimTaylor1974.FilterParser
             foreach (var expression in expressions)
             {
                 criteria.children.Add(FromExpression(expression));
+            }
+
+            return criteria;
+        }
+
+        public static ICriteria Or(params ICriteria[] orCriteria)
+        {
+            var criteria = new Criteria(CriteriaType.Or);
+
+            foreach (var c in orCriteria)
+            {
+                criteria.children.Add(c);
             }
 
             return criteria;

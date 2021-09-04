@@ -32,7 +32,7 @@ namespace JimTaylor1974.FilterParser
 
             var value = token.Value;
 
-            throw new CriteriaParseException($"Unable to parse \'{value}\' as field, constant or value.");
+            throw new CriteriaParseException($"Unable to parse \'{value}\' as field, constant or value. Operator = {@operator.Filter}, argument position = {argumentPosition}.");
         }
 
         public void Add(ISqlFragment sqlFragment)

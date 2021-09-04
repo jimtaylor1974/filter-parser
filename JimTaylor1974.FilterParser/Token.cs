@@ -1,5 +1,4 @@
-﻿
-/********************************************************
+﻿/********************************************************
  *	Author: Andrew Deren
  *	Date: July, 2004
  *	http://www.adersoftware.com
@@ -25,43 +24,25 @@ namespace JimTaylor1974.FilterParser
 
     public class Token
     {
-        int line;
-        int column;
-        string value;
-        TokenKind kind;
-
         public Token(TokenKind kind, string value, int line, int column)
         {
-            this.kind = kind;
-            this.value = value;
-            this.line = line;
-            this.column = column;
+            this.Kind = kind;
+            this.Value = value;
+            this.Line = line;
+            this.Column = column;
         }
 
-        public int Column
-        {
-            get { return this.column; }
-        }
+        public int Column { get; }
 
-        public TokenKind Kind
-        {
-            get { return this.kind; }
-        }
+        public TokenKind Kind { get; }
 
-        public int Line
-        {
-            get { return this.line; }
-        }
+        public int Line { get; }
 
-        public string Value
-        {
-            get { return this.value; }
-        }
+        public string Value { get; }
 
         public override string ToString()
         {
             return Value;
         }
     }
-
 }

@@ -107,14 +107,6 @@ namespace JimTaylor1974.FilterParser
                         break;
 
                     case "and":
-                        {
-                            var parent = currentNode.Parent;
-                            parent.AddChild(NodeType.Binary, token);
-
-                            currentNode = parent.AddChild(NodeType.Unknown);
-                        }
-                        break;
-
                     case "or":
                         {
                             var parent = currentNode.Parent;
@@ -136,37 +128,9 @@ namespace JimTaylor1974.FilterParser
             var dump = Node.DumpXml(rootNode);
 
             System.Diagnostics.Debug.WriteLine(dump);
-
-            // File.WriteAllText(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "test.xml"), dump);
-
+            
             var criteria = BuildCriteria(counter, resolveField, resolveConstant, rootNode);
             return criteria;
-        }
-
-        private static bool IsBinaryGroup(Token[] tokens)
-        {
-            int nesting = 0;
-
-            while (true)
-            {
-                foreach (var token in tokens)
-                {
-                    if (token.Value == "(")
-                    {
-                        nesting++;
-                    }
-                    else if (token.Value == ")")
-                    {
-                        nesting--;
-                    }
-                    else if (nesting == 0 && token.Value == "or" || token.Value == "and")
-                    {
-                        return true;
-                    }
-                }
-
-                return false;
-            }
         }
 
         private static ICriteria BuildCriteria(Counter counter, ResolveField resolveField, ResolveConstant resolveConstant, Node node)
@@ -213,6 +177,29 @@ namespace JimTaylor1974.FilterParser
 
             var expression = ToExpression(counter, resolveField, resolveConstant, node);
             return FromExpression(expression);
+        }
+
+        private static bool IsBinaryGroup(Token[] tokens)
+        {
+            int nesting = 0;
+
+            foreach (var token in tokens)
+            {
+                if (token.Value == "(")
+                {
+                    nesting++;
+                }
+                else if (token.Value == ")")
+                {
+                    nesting--;
+                }
+                else if (nesting == 0 && token.Value == "or" || token.Value == "and")
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         private static void CreateCriteriaFromNodes(Counter counter, ResolveField resolveField, ResolveConstant resolveConstant, List<Node> nodes, ICriteria binaryCriteria)

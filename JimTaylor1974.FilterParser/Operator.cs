@@ -39,9 +39,9 @@ namespace JimTaylor1974.FilterParser
         protected string sqlTemplate = null;
         protected string overloadFilterTemplate = null;
         protected string overloadSqlTemplate = null;
-        protected OperatorType operatorType = OperatorType.Unknown;
+        protected OperatorType operatorType = OperatorType.None;
 
-        public Operator()
+        protected Operator()
         {
             var operatorAttribute = OperatorAttribute.For(this.GetType());
 
