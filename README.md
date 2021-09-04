@@ -113,3 +113,59 @@ else
     Console.WriteLine($"Raw filter: {filter}");
 }
 ```
+
+#### Operators
+
+| Type | Operator | Syntax  |  |
+|  ---  |  ---  |  ---  |  ---  |
+| Whitespace | New Line |  |  |
+| Binary | and | and |  |
+| Binary | or | or |  |
+| Logical | eq | {lhs} eq {rhs} |  |
+| Logical | ex | ex ({rhs}) |  |
+| Logical | ge | {lhs} ge {rhs} |  |
+| Logical | gt | {lhs} gt {rhs} |  |
+| Logical | le | {lhs} le {rhs} |  |
+| Logical | lt | {lhs} lt {rhs} |  |
+| Logical | not | not {rhs} |  |
+| Arithmetic | add | {lhs} add {rhs} |  |
+| Arithmetic | div | {lhs} div {rhs} |  |
+| Arithmetic | mod | {lhs} mod {rhs} |  |
+| Arithmetic | mul | {lhs} mul {rhs} |  |
+| Arithmetic | sub | {lhs} sub {rhs} |  |
+| Grouping | Open Group: ( | ( |  |
+| Grouping | Close Group: ) | ) |  |
+| Function | all | ? | **Not implemented** |
+| Function | any | ? | **Not implemented** |
+| Function | cast | ? | **Not implemented** |
+| Function | ceiling | ceiling({lhs}) |  |
+| Function | concat | concat({lhs},{rhs}) |  |
+| Function | contains | contains({lhs},{rhs}) |  |
+| Function | date | date({lhs}) | **Not implemented** |
+| Function | day | day({lhs}) |  |
+| Function | endswith | endswith({lhs},{rhs}) |  |
+| Function | floor | floor({lhs}) |  |
+| Function | fractionalseconds | fractionalseconds({lhs}) |  |
+| Function | geo.distance | ? | **Not implemented** |
+| Function | geo.intersects | ? | **Not implemented** |
+| Function | geo.length | ? | **Not implemented** |
+| Function | hour | hour({lhs}) |  |
+| Function | indexof | indexof({lhs},{rhs}) |  |
+| Function | isof | ? | **Not implemented** |
+| Function | length | length({lhs}) |  |
+| Function | maxdatetime | maxdatetime() |  |
+| Function | mindatetime | mindatetime() |  |
+| Function | minute | minute({lhs}) |  |
+| Function | month | month({lhs}) |  |
+| Function | now | now() |  |
+| Function | round | round({lhs}) |  |
+| Function | second | second({lhs}) |  |
+| Function | startswith | startswith({lhs},{rhs}) |  |
+| Function | substring | substring({lhs},{rhs}) substring({lhs},{rhs},{rhs1}) |  |
+| Function | time | time({lhs}) | **Not implemented** |
+| Function | tolower | tolower({lhs}) | **Not implemented** |
+| Function | totaloffsetminutes | totaloffsetminutes({lhs}) | **Not implemented** |
+| Function | totalseconds | totalseconds({lhs}) | **Not implemented** |
+| Function | toupper | toupper({lhs}) | **Not implemented** |
+| Function | trim | trim({lhs}) |  |
+| Function | year | year({lhs}) |  |
