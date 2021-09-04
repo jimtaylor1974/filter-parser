@@ -295,6 +295,21 @@ namespace JimTaylor1974.FilterParser
                 return new Parameter("Filter" + counter.Next(), constant);
             }
 
+            if (value.Equals("true", StringComparison.OrdinalIgnoreCase))
+            {
+                return new Parameter("Filter" + counter.Next(), true);
+            }
+
+            if (value.Equals("false", StringComparison.OrdinalIgnoreCase))
+            {
+                return new Parameter("Filter" + counter.Next(), false);
+            }
+
+            if (value.Equals("null", StringComparison.OrdinalIgnoreCase))
+            {
+                return new Parameter("Filter" + counter.Next(), DBNull.Value);
+            }
+
             return new UnparsedTokenFragment(token);
         }
 
