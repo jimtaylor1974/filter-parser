@@ -83,21 +83,7 @@ namespace JimTaylor1974.FilterParser
                     if (sqlFragment is Operator)
                     {
                         // this is the right hand side of the function
-
-                        var functionExpression = OperatorExpression(left, right, right1, @operator);
-
-                        var remaining = sqlFragments.Skip(index).ToArray();
-
-                        var builder = new OperatorBuilder(counter, resolveField);
-                        builder.Add(functionExpression);
-                        foreach (var fragment in remaining)
-                        {
-                            builder.Add(fragment);
-                        }
-
-                        var expression = builder.ToExpression();
-
-                        return expression;
+                        return GetFunctionExpression(left, right, right1, @operator, index);
                     }
 
                     if (@operator.OperatorType == OperatorTypes.Function)
@@ -127,6 +113,24 @@ namespace JimTaylor1974.FilterParser
             }
 
             return OperatorExpression(left, right, right1, @operator);
+        }
+
+        private IExpression GetFunctionExpression(List<ISqlFragment> left, List<ISqlFragment> right, List<ISqlFragment> right1, Operator @operator, int index)
+        {
+            var functionExpression = OperatorExpression(left, right, right1, @operator);
+
+            var remaining = sqlFragments.Skip(index).ToArray();
+
+            var builder = new OperatorBuilder(counter, resolveField);
+            builder.Add(functionExpression);
+            foreach (var fragment in remaining)
+            {
+                builder.Add(fragment);
+            }
+
+            var expression = builder.ToExpression();
+
+            return expression;
         }
 
         private static IExpression OperatorExpression(List<ISqlFragment> left, List<ISqlFragment> right, List<ISqlFragment> right1, Operator @operator)
