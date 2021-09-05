@@ -167,7 +167,7 @@ namespace JimTaylor1974.FilterParser
             {
                 "Type",
                 "Operator",
-                ""
+                "Syntax"
             };
 
             if (!implementedOnly)
